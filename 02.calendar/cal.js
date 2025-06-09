@@ -6,13 +6,8 @@ import timezone from "dayjs/plugin/timezone.js";
 import utc from "dayjs/plugin/utc.js";
 import minimist from "minimist";
 
-// UTCプラグインを読み込み
 dayjs.extend(utc);
-// timezoneプラグインを読み込み
 dayjs.extend(timezone);
-// 日本語化
-// dayjs.locale("ja");
-// タイムゾーンのデフォルトをJST化
 dayjs.tz.setDefault("Asia/Tokyo");
 
 function printCalender(month, year) {
