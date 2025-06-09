@@ -10,10 +10,25 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Tokyo");
 
-function printCalender(month, year) {
-  let m = Number(month || dayjs().format("M"));
-  let y = Number(year || dayjs().format("YYYY"));
+function main() {
+  const { m, y } = get_month_year();
+  console.log(`      ${m}月 ${y}`);
 
+  const week_header = ["日", "月", "火", "水", "木", "金", "土"];
+  console.log(week_header.join(" "));
+
+  print_date(m, y);
+}
+
+function get_month_year() {
+  const argv = minimist(process.argv.slice(2));
+  let m = Number(argv.m || dayjs().format("M"));
+  let y = Number(argv.y || dayjs().format("YYYY"));
+
+  return { m, y };
+}
+
+function print_date(m, y) {
   const specified_date = dayjs()
     .year(y)
     .month(m - 1);
@@ -21,18 +36,9 @@ function printCalender(month, year) {
   const first_day_of_week = Number(specified_date.startOf("month").format("d"));
   const last_day = Number(specified_date.endOf("month").format("D"));
 
-  // 月と年を表示
-  console.log(`      ${month}月 ${year}`);
-
-  // 曜日を表示
-  const week_header = ["日", "月", "火", "水", "木", "金", "土"];
-  console.log(week_header.join(" "));
-
-  // 日付を表示
   let calender = "";
   let first_day = "1";
 
-  // 最初の空白
   calender += "   ".repeat(first_day_of_week);
 
   for (let i = first_day; i <= last_day; i++) {
@@ -46,6 +52,4 @@ function printCalender(month, year) {
   console.log(calender);
 }
 
-const argv = minimist(process.argv.slice(2));
-
-printCalender(argv.m, argv.y);
+main();
